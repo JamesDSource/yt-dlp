@@ -3,7 +3,6 @@ import json
 import re
 import time
 from hashlib import md5
-from random import randint
 
 from .common import InfoExtractor
 from ..aes import aes_ecb_encrypt, pkcs7_padding
@@ -19,6 +18,7 @@ from ..utils import (
     urljoin,
     variadic,
 )
+import secrets
 
 
 class NetEaseMusicBaseIE(InfoExtractor):
@@ -53,7 +53,7 @@ class NetEaseMusicBaseIE(InfoExtractor):
             '__csrf': '',
             'os': 'pc',
             'channel': 'undefined',
-            'requestId': f'{int(time.time() * 1000)}_{randint(0, 1000):04}',
+            'requestId': f'{int(time.time() * 1000)}_{secrets.SystemRandom().randint(0, 1000):04}',
             **traverse_obj(self._get_cookies(self._API_BASE), {
                 'MUSIC_U': ('MUSIC_U', {lambda i: i.value}),
             })
