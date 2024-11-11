@@ -1,7 +1,6 @@
 import collections
 import itertools
 import json
-import random
 import re
 
 from .common import InfoExtractor
@@ -32,6 +31,7 @@ from ..utils import (
     url_or_none,
     urljoin,
 )
+import secrets
 
 
 class TwitchBaseIE(InfoExtractor):
@@ -1033,7 +1033,7 @@ class TwitchStreamIE(TwitchBaseIE):
             'allow_source': 'true',
             'allow_audio_only': 'true',
             'allow_spectre': 'true',
-            'p': random.randint(1000000, 10000000),
+            'p': secrets.SystemRandom().randint(1000000, 10000000),
             'player': 'twitchweb',
             'playlist_include_framerate': 'true',
             'segment_preference': '4',

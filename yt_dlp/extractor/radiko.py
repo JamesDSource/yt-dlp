@@ -1,5 +1,4 @@
 import base64
-import random
 import urllib.parse
 
 from .common import InfoExtractor
@@ -11,6 +10,7 @@ from ..utils import (
     unified_timestamp,
     update_url_query,
 )
+import secrets
 
 
 class RadikoBaseIE(InfoExtractor):
@@ -133,7 +133,7 @@ class RadikoBaseIE(InfoExtractor):
                 'station_id': station,
                 **query,
                 'l': '15',
-                'lsid': ''.join(random.choices('0123456789abcdef', k=32)),
+                'lsid': ''.join(secrets.SystemRandom().choices('0123456789abcdef', k=32)),
                 'type': 'b',
             })
 
