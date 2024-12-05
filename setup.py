@@ -3,6 +3,7 @@
 # Allow execution from anywhere
 import os
 import sys
+from security import safe_command
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -123,7 +124,7 @@ class build_lazy_extractors(Command):
         if self.dry_run:
             print('Skipping build of lazy extractors in dry run mode')
             return
-        subprocess.run([sys.executable, 'devscripts/make_lazy_extractors.py'])
+        safe_command.run(subprocess.run, [sys.executable, 'devscripts/make_lazy_extractors.py'])
 
 
 def main():
