@@ -1,6 +1,5 @@
 import itertools
 import json
-import random
 import re
 import string
 import time
@@ -28,6 +27,7 @@ from ..utils import (
     try_get,
     url_or_none,
 )
+import secrets
 
 
 class TikTokBaseIE(InfoExtractor):
@@ -55,7 +55,7 @@ class TikTokBaseIE(InfoExtractor):
 
     def _call_api_impl(self, ep, query, manifest_app_version, video_id, fatal=True,
                        note='Downloading API JSON', errnote='Unable to download API page'):
-        self._set_cookie(self._API_HOSTNAME, 'odin_tt', ''.join(random.choices('0123456789abcdef', k=160)))
+        self._set_cookie(self._API_HOSTNAME, 'odin_tt', ''.join(secrets.SystemRandom().choices('0123456789abcdef', k=160)))
         webpage_cookies = self._get_cookies(self._WEBPAGE_HOST)
         if webpage_cookies.get('sid_tt'):
             self._set_cookie(self._API_HOSTNAME, 'sid_tt', webpage_cookies['sid_tt'].value)
@@ -74,8 +74,8 @@ class TikTokBaseIE(InfoExtractor):
             'build_number': app_version,
             'manifest_version_code': manifest_app_version,
             'update_version_code': manifest_app_version,
-            'openudid': ''.join(random.choices('0123456789abcdef', k=16)),
-            'uuid': ''.join(random.choices(string.digits, k=16)),
+            'openudid': ''.join(secrets.SystemRandom().choices('0123456789abcdef', k=16)),
+            'uuid': ''.join(secrets.SystemRandom().choices(string.digits, k=16)),
             '_rticket': int(time.time() * 1000),
             'ts': int(time.time()),
             'device_brand': 'Google',
@@ -767,7 +767,7 @@ class TikTokUserIE(TikTokBaseIE):
             'max_cursor': 0,
             'min_cursor': 0,
             'retry_type': 'no_retry',
-            'device_id': ''.join(random.choices(string.digits, k=19)),  # Some endpoints don't like randomized device_id, so it isn't directly set in _call_api.
+            'device_id': ''.join(secrets.SystemRandom().choices(string.digits, k=19)),  # Some endpoints don't like randomized device_id, so it isn't directly set in _call_api.
         }
 
         for page in itertools.count(1):
@@ -815,7 +815,7 @@ class TikTokBaseListIE(TikTokBaseIE):  # XXX: Conventionally, base classes shoul
             'cursor': 0,
             'count': 20,
             'type': 5,
-            'device_id': ''.join(random.choices(string.digits, k=19))
+            'device_id': ''.join(secrets.SystemRandom().choices(string.digits, k=19))
         }
 
         for page in itertools.count(1):

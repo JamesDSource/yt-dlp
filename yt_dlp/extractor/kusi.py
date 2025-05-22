@@ -1,4 +1,3 @@
-import random
 import urllib.parse
 
 from .common import InfoExtractor
@@ -9,6 +8,7 @@ from ..utils import (
     update_url_query,
     xpath_text,
 )
+import secrets
 
 
 class KUSIIE(InfoExtractor):
@@ -51,7 +51,7 @@ class KUSIIE(InfoExtractor):
             'featureid': clip_id,
             'affiliateno': affiliate_id,
             'clientgroupid': '1',
-            'rnd': int(round(random.random() * 1000000)),
+            'rnd': int(round(secrets.SystemRandom().random() * 1000000)),
         })
 
         doc = self._download_xml(xml_url, video_id)
